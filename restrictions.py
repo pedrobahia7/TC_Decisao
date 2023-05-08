@@ -3,5 +3,5 @@ class Restrictions():
         m_recursos_utilizados = m_recursos_necessarios.multiply(x,axis=0)
         for agente in range(n):
             custo_total = m_recursos_utilizados.iloc[agente].sum()
-            if v_capacidade_max[agente] < custo_total:
+            if v_capacidade_max.iloc[agente] < custo_total:
                 return False
