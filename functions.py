@@ -1,8 +1,14 @@
-def f_C(cost,x): #TODO
+from restrictions import capacidade_excedida
+
+def f_C(x, cost, max_capacity, resource): 
+    if capacidade_excedida(x, resource, max_capacity):
+        return 50000
     final_cost = cost.mul(x).sum().sum()
     return(final_cost)
 
-def f_E(resource,x): #TODO
+def f_E(x, cost, max_capacity, resource): 
+    if capacidade_excedida(x, resource, max_capacity):
+        return 50000
     CRA = resource.mul(x).sum(axis=1)
     final_consumption = max(CRA) - min(CRA)
     return(final_consumption)

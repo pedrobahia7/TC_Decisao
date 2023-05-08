@@ -3,9 +3,9 @@ import itertools
 class NeighbourStructs():
     def __init__(self):
         self.structs = [
-            self.swap_lines, 
             self.swap_machines, 
             self.swap_columns, 
+            self.swap_lines, 
         ]
 
     def swap_lines(self, x): 
