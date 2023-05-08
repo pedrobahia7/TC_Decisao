@@ -55,3 +55,20 @@ class GVNS:
             else:
                 k = k + 1 #muda estrutura
         return x
+
+    def swap_machines(x_original):
+
+        x_list = list()
+        for col in x_original.columns:
+            x = x_original.copy()
+            x_one_idx = x.loc[:,col].where(x.loc[:,col]==1).idxmax()
+            for row in x.index:
+                x = x_original.copy()
+                if x.loc[row,col] == 0:
+                    x.loc[row,col] = 1
+                    x.loc[x_one_idx,col] = 0
+                    x_list.append(x)
+        return(x_list)    
+                    
+
+                
