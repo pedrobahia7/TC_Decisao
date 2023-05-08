@@ -4,11 +4,11 @@ class NeighbourStructs():
     def __init__(self):
         self.structs = [
             self.swap_lines, 
-            self.swap_solution, 
             self.swap_machines, 
+            self.swap_columns, 
         ]
 
-    def swap_lines(x): 
+    def swap_lines(self, x): 
         perms = itertools.permutations(range(len(x)), 2)
         neighbours = []
         for perm in perms:
@@ -16,8 +16,9 @@ class NeighbourStructs():
             row1, row2 = perm
             new_neighbour.iloc[row1], new_neighbour.iloc[row2] = x.iloc[row2], x.iloc[row1]
             neighbours.append(new_neighbour)
+        return neighbours
 
-    def swap_machines(x_original):
+    def swap_machines(self, x_original):
         x_list = list()
         for col in x_original.columns:
             x = x_original.copy()
@@ -30,7 +31,7 @@ class NeighbourStructs():
                     x_list.append(x)
         return(x_list)    
 
-    def swap_columns(x):
+    def swap_columns(self, x):
         perms = itertools.permutations(range(len(x.columns)), 2)
         neighbours = []
         for perm in perms:
@@ -38,3 +39,4 @@ class NeighbourStructs():
             col1, col2 = perm
             new_neighbour[col1], new_neighbour[col2] = x[col2], x[col1]
             neighbours.append(new_neighbour)
+        return neighbours
