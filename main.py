@@ -69,8 +69,20 @@ for i in range(5):
 
     print(f"-----------FC {i}--------")
     solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
+
+    df_evolution = pd.DataFrame(gvns.evolution_of_f)
+    df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
+    gvns.evolution_of_f = list()
+
+
     print(f"-----------FE {i}--------")
     solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
+
+
+    df_evolution = pd.DataFrame(gvns.evolution_of_f)
+    df_evolution.to_csv(f'evolution_of_fe_{i}.csv')
+    gvns.evolution_of_f = list()
+
 
     print(f"\n\n-----------Solutions {i}--------\n\n")
     print("fc(x_C): ", f_C(x_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
