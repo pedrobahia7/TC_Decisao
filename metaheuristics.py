@@ -7,6 +7,7 @@ class GVNS:
         self.resource = m_recursos_necessarios 
         self.cost = m_custo_tarefa 
         self.max_capacity = v_capacidade_max
+        self.evolution_of_f = list()
 
     def __best_neighbour(self, x, k, funct):
         all_n = k(x)
@@ -18,6 +19,7 @@ class GVNS:
             if n_eval < min: #minimizacao
                     min = n_eval
                     best_neighbour = n
+            self.evolution_of_f.append(min) #add to value of f
         return best_neighbour
 
     def __best_improvement(self, x, k, funct):
