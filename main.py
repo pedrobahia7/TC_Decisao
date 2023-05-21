@@ -1,6 +1,6 @@
 from neighbour_structs import NeighbourStructs
 from metaheuristics import GVNS
-from functions import f_C, f_E
+from functions import *
 import pandas as pd
 import numpy as np 
 
@@ -68,7 +68,7 @@ for i in range(5):
 
 
     print(f"-----------FC {i}--------")
-    solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
+    solution_C = gvns.gvns(x_E, l_max, k_max, t_max, neg_f_C)
 
     df_evolution = pd.DataFrame(gvns.evolution_of_f)
     df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
@@ -76,7 +76,7 @@ for i in range(5):
 
 
     print(f"-----------FE {i}--------")
-    solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
+    solution_E = gvns.gvns(x_E, l_max, k_max, t_max, neg_f_E)
 
 
     df_evolution = pd.DataFrame(gvns.evolution_of_f)
