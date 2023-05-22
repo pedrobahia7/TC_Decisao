@@ -1,8 +1,7 @@
 import time
 import random
-from functions import f_C
 class GVNS:
-    def __init__(self, m_recursos_necessarios, m_custo_tarefa, v_capacidade_max, neighbour_structs,is_epsilon = 0 ,epsilon = 10000):
+    def __init__(self, m_recursos_necessarios, m_custo_tarefa, v_capacidade_max, neighbour_structs, is_epsilon = 0 ,epsilon = 10000):
         self.neighbour_structs = neighbour_structs
         self.resource = m_recursos_necessarios 
         self.cost = m_custo_tarefa 
@@ -17,7 +16,6 @@ class GVNS:
         min = funct(x, self.cost, self.max_capacity, self.resource, epsilon = self.epsilon, is_epsilon = self.is_epsilon)
         best_neighbour = x
         print(min)
-        print(f_C(x, self.cost, self.max_capacity, self.resource))
         for n in all_n:
             n_eval = funct(n, self.cost, self.max_capacity, self.resource, epsilon = self.epsilon, is_epsilon = self.is_epsilon)
             if n_eval < min: #minimizacao
