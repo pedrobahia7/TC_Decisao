@@ -30,30 +30,30 @@ for i in range(5):
     x_C.to_csv(f'xc_{i}.csv')
     x_E.to_csv(f'xe_{i}.csv')
 
+    gvns.soma_ponderada_biobjetivo(x_E, x_E, x_E, l_max, k_max, t_max, f_C, f_E, neg_f_C, neg_f_E)
+    #print(f"-----------FC {i}--------")
+    #solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
 
-    print(f"-----------FC {i}--------")
-    solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
-
-    df_evolution = pd.DataFrame(gvns.evolution_of_f)
-    df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
-    gvns.evolution_of_f = list()
-
-
-    print(f"-----------FE {i}--------")
-    solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
+    #df_evolution = pd.DataFrame(gvns.evolution_of_f)
+    #df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
+    #gvns.evolution_of_f = list()
 
 
-    df_evolution = pd.DataFrame(gvns.evolution_of_f)
-    df_evolution.to_csv(f'evolution_of_fe_{i}.csv')
-    gvns.evolution_of_f = list()
+    #print(f"-----------FE {i}--------")
+    #solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
 
 
-    print(f"\n\n-----------Solutions {i}--------\n\n")
-    print("fc(x_C): ", f_C(x_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
-    print("fc(solution_C): ", f_C(solution_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
+    #df_evolution = pd.DataFrame(gvns.evolution_of_f)
+    #df_evolution.to_csv(f'evolution_of_fe_{i}.csv')
+    #gvns.evolution_of_f = list()
 
-    print("fe(x_E): ", f_E(x_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
-    print("fe(solution_E): ", f_E(solution_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
 
-    solution_C.to_csv(f'fc_{i}.csv')
-    solution_E.to_csv(f'fe_{i}.csv')
+    #print(f"\n\n-----------Solutions {i}--------\n\n")
+    #print("fc(x_C): ", f_C(x_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
+    #print("fc(solution_C): ", f_C(solution_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
+
+    #print("fe(x_E): ", f_E(x_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
+    #print("fe(solution_E): ", f_E(solution_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
+
+    #solution_C.to_csv(f'fc_{i}.csv')
+    #solution_E.to_csv(f'fe_{i}.csv')

@@ -82,3 +82,34 @@ class GVNS:
             else:
                     k = k + 1 #muda estrutura
         return x
+
+    def normalize(self, solution, min_solution, max_solution):
+        return (solution - min_solution)/(max_solution - min_solution)
+
+    def soma_ponderada_biobjetivo(self, x, initial_f1, initial_f2, l_max, k_max, t_max, f1, f2, neg_f1, neg_f2):
+        x_min_f1 = self.gvns(initial_f1, l_max, k_max, t_max, f1)
+        x_max_f1 = self.gvns(initial_f1, l_max, k_max, t_max, neg_f1)
+        x_min_f2 = self.gvns(initial_f2, l_max, k_max, t_max, f2)
+        x_max_f2 = self.gvns(initial_f2, l_max, k_max, t_max, neg_f2)
+
+        min_f1 = f1(x_min_f1, self.cost, self.max_capacity, self.resource)
+        max_f1 = f1(x_max_f1, self.cost, self.max_capacity, self.resource)
+        print(f"f1: {min_f1} ---- {max_f1}")
+        z1 = min_f1
+
+        min_f2 = f2(x_min_f2, self.cost, self.max_capacity, self.resource)
+        max_f2 = f2(x_max_f2, self.cost, self.max_capacity, self.resource)
+        print(f"f2: {min_f2} ---- {max_f2}")
+        z2 = min_f2
+
+        lambda1 = self.normalize(z1, min_f2, max_f2 ) - self.normalize(z2, min_f2, max_f2 )
+        lambda2 = self.normalize(z2, min_f1, max_f1 ) - self.normalize(z1, min_f1, max_f1 )
+
+        print(f"lambdas: {lambda1} ---- {lambda2}")
+
+        Z = lambda _x, cost, capacity, resource : lambda1*f1(_x, cost, capacity, resource) + lambda2*f2(_x, cost, capacity, resource)
+        res = self.gvns(x, l_max, k_max, t_max, Z)
+        print("\n\n-----------Solutions --------\n\n")
+        print("fc(solution_C): ", f1(res, self.cost, self.max_capacity, self.resource))
+        print("fe(solution_E): ", f2(res, self.cost, self.max_capacity, self.resource))
+
