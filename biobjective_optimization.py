@@ -40,12 +40,11 @@ for i in range(1):
 
 
     print(f"-----------FC {i}--------")
-    #solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
+    solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
 
-    #df_evolution = pd.DataFrame(gvns.evolution_of_f)
-    #df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
-    #gvns.evolution_of_f = list()
-
+    df_evolution = pd.DataFrame(gvns.evolution_of_f)
+    df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
+    gvns.evolution_of_f = list()
 
     print(f"-----------FE {i}--------")
     solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
