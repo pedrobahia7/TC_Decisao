@@ -5,3 +5,7 @@ def capacidade_excedida(x, m_recursos_necessarios, v_capacidade_max):
         if recursos_utilizados > v_capacidade_max.iloc[agente].values[0]:
             return True
     return False
+
+
+
+

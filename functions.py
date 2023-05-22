@@ -2,14 +2,14 @@ from restrictions import capacidade_excedida
 import pandas as pd
 import numpy as np
 
-def f_C(x, cost, max_capacity, resource): 
-    if capacidade_excedida(x, resource, max_capacity):
+def f_C(x, cost, max_capacity, resource,is_epsilon=0,epsilon=10000): 
+    if capacidade_excedida(x, resource, max_capacity) or ( is_epsilon == 1 and f_E(x,cost,max_capacity,resource)>epsilon):
         return 2000
     final_cost = cost.mul(x).sum().sum()
     return(final_cost)
 
-def f_E(x, cost, max_capacity, resource): 
-    if capacidade_excedida(x, resource, max_capacity):
+def f_E(x, cost, max_capacity, resource,is_epsilon=0,epsilon=10000):  
+    if capacidade_excedida(x, resource, max_capacity) or ( is_epsilon == 1 and f_C(x,cost,max_capacity,resource)>epsilon):
         return 200
     CRA = resource.mul(x).sum(axis=1)
     final_consumption = max(CRA) - min(CRA)
