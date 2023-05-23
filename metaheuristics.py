@@ -107,6 +107,7 @@ class GVNS:
         max_f2 = f2(x_max_f2, self.cost, self.max_capacity, self.resource)
 
         zs = [ x_min_f1, x_min_f2 ]
+        output = []
         while True:
             for z in combinations(zs, 2):
                 f1_z1 = f1(z[0], self.cost, self.max_capacity, self.resource) 
@@ -118,8 +119,7 @@ class GVNS:
                 Z = lambda _x, cost, capacity, resource : lambda1*f1(_x, cost, capacity, resource) + lambda2*f2(_x, cost, capacity, resource)
                 zs.append(self.gvns(x, l_max, k_max, t_max, Z))
                 if len(zs) >= 5:
-                    output = []
                     for aux in zs:
-                        output.append((f1(aux, self.cost, self.max_capacity, self.resource)), (f2(aux, self.cost, self.max_capacity, self.resource)))
-                    print(output)
+                        output.append((f1(aux, self.cost, self.max_capacity, self.resource), f2(aux, self.cost, self.max_capacity, self.resource)))
+                        print(output)
                     return zs
