@@ -9,7 +9,7 @@ m = 50
 
 l_max = 2
 k_max = 3
-t_max = 60
+t_max = 10
 
 m_recursos_necessarios = pd.read_csv('data_5x50_a.csv', header=None)
 m_custo_tarefa = pd.read_csv('data_5x50_c.csv', header=None)
@@ -26,11 +26,12 @@ gvns = GVNS(
 for i in range(5):
     x_C = fc_initial_solution(m_custo_tarefa)
     x_E = fe_initial_solution(m_recursos_necessarios)
+    #x_C.to_csv(f'xc_{i}.csv')
+    #x_E.to_csv(f'xe_{i}.csv')
 
-    x_C.to_csv(f'xc_{i}.csv')
-    x_E.to_csv(f'xe_{i}.csv')
-
-    gvns.soma_ponderada_biobjetivo(x_E, x_E, x_E, l_max, k_max, t_max, f_C, f_E, neg_f_C, neg_f_E)
+    result = gvns.soma_ponderada_biobjetivo(x_E, x_E, x_E, l_max, k_max, t_max, f_C, f_E, neg_f_C, neg_f_E)
+    with open(f'output_{i}.txt', 'w') as f:
+        f.write(result)
     #print(f"-----------FC {i}--------")
     #solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
 
