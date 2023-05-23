@@ -38,9 +38,10 @@ for i in range(5):
                 f_E(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
             )
         )
-        with open(f'output_{i}.txt', 'w') as f:
-            aux.to_csv(f'{idx}_x_out_{i}.csv')
-    f.write(str(output))
+        aux.to_csv(f'{idx}_x_out_{i}.csv')
+
+    with open(f'output_{i}.txt', 'w') as f:
+        f.write(str(output))
     #print(f"-----------FC {i}--------")
     #solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
 
