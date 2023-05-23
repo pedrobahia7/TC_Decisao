@@ -11,7 +11,7 @@ def check_frontier(solution,frontier):
     is_append = 1
     remove_list = list()
     for i in range(len(frontier)):
-        if solution == frontier[i]:
+        if solution.equals(frontier[i]):
             break
         aux = 0 
         if f_C(frontier[i], m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios) > aux_fc:
@@ -34,7 +34,9 @@ def check_frontier(solution,frontier):
         
     if is_append==1:
         frontier.append(solution)
-        
+    
+
+
 
 is_epsilon = 1
 
@@ -51,36 +53,37 @@ m_custo_tarefa = pd.read_csv('data_5x50_c.csv', header=None)
 v_capacidade_maxima = pd.read_csv('data_5x50_b.csv', header=None)
 
 list_of_lists = list()
-#for aux in range(1):
-frontier = list()
-while len(frontier) < 15:
+for aux in range(5):
+    frontier = list()
+    while len(frontier) < 15:
+            
+        fc_epsilon = rd.randrange(1200, 1800)
+
+        gvns = GVNS(
+        m_recursos_necessarios = m_recursos_necessarios,
+        m_custo_tarefa = m_custo_tarefa,
+        v_capacidade_max = v_capacidade_maxima,
+        neighbour_structs = NeighbourStructs().structs,
+        is_epsilon = is_epsilon,
+        epsilon = fc_epsilon
+        ) 
+
         
-    fc_epsilon = rd.randrange(1200, 1800)
-
-    gvns = GVNS(
-    m_recursos_necessarios = m_recursos_necessarios,
-    m_custo_tarefa = m_custo_tarefa,
-    v_capacidade_max = v_capacidade_maxima,
-    neighbour_structs = NeighbourStructs().structs,
-    is_epsilon = is_epsilon,
-    epsilon = fc_epsilon
-    ) 
-
-    
-    x_E = fe_initial_solution(m_recursos_necessarios)
+        x_E = fe_initial_solution(m_recursos_necessarios)
 
 
 
-    
+        
 
-    
+        
 
-    
-    gvns.epsilon = fc_epsilon
+        
+        gvns.epsilon = fc_epsilon
 
 
-    solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
-    check_frontier(solution_E,frontier)
+        solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
+        check_frontier(solution_E,frontier)
+
     list_of_lists.append(frontier)
 
 
