@@ -30,8 +30,17 @@ for i in range(5):
     #x_E.to_csv(f'xe_{i}.csv')
 
     result = gvns.soma_ponderada_biobjetivo(x_E, x_E, x_E, l_max, k_max, t_max, f_C, f_E, neg_f_C, neg_f_E)
+    output=[]
+    for aux in result:
+        output.append(
+            (
+                f_C(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
+                f_E(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
+            )
+        )
     with open(f'output_{i}.txt', 'w') as f:
-        f.write(result)
+        result.to_csv(f'x_out_{i}.csv')
+        f.write(str(output))
     #print(f"-----------FC {i}--------")
     #solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
 

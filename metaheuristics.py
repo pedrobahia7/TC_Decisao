@@ -118,8 +118,5 @@ class GVNS:
                 lambda2 = self.normalize(f1_z2, min_f1, max_f1 ) - self.normalize(f1_z1, min_f1, max_f1 )
                 Z = lambda _x, cost, capacity, resource : lambda1*f1(_x, cost, capacity, resource) + lambda2*f2(_x, cost, capacity, resource)
                 zs.append(self.gvns(x, l_max, k_max, t_max, Z))
-                if len(zs) >= 5:
-                    for aux in zs:
-                        output.append((f1(aux, self.cost, self.max_capacity, self.resource), f2(aux, self.cost, self.max_capacity, self.resource)))
-                        print(output)
+                if len(zs) >= 10:
                     return zs
