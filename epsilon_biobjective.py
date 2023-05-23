@@ -3,12 +3,40 @@ from metaheuristics import GVNS
 from functions import *
 import pandas as pd
 import numpy as np 
+import random as rd
+
+def check_frontier(solution,frontier):
+
+    [aux_fc, aux_fe] = [f_C(solution, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios), f_E(solution, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios)]
+    is_append = 1
+    remove_list = list()
+    for i in range(len(frontier)):
+
+        aux = 0 
+        if f_C(frontier[i], m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios) > aux_fc:
+            aux = aux +1 
+            
+        if f_E(frontier[i], m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios) > aux_fe:
+            aux = aux +1
+
+        if aux == 2:
+            remove_list.append(frontier[i])
+            
+        elif aux == 0:
+            is_append = 0
 
 
-
+    for i in remove_list:
+        frontier = frontier.remove(i)
+        if frontier == None:
+            frontier = list()
+        
+    if is_append==0:
+        frontier.append(solution)
+    
 
 is_epsilon = 1
-epsilon = 1000
+
 
 n = 5
 m = 50
@@ -21,46 +49,37 @@ m_recursos_necessarios = pd.read_csv('data_5x50_a.csv', header=None)
 m_custo_tarefa = pd.read_csv('data_5x50_c.csv', header=None)
 v_capacidade_maxima = pd.read_csv('data_5x50_b.csv', header=None)
 
-gvns = GVNS(
+list_of_lists = list()
+#for aux in range(1):
+frontier = list()
+while len(frontier) < 15:
+        
+    fc_epsilon = rd.randrange(1200, 1800)
+
+    gvns = GVNS(
     m_recursos_necessarios = m_recursos_necessarios,
     m_custo_tarefa = m_custo_tarefa,
     v_capacidade_max = v_capacidade_maxima,
-    neighbour_structs = NeighbourStructs().structs, 
-    is_epsilon=is_epsilon,
-    epsilon=epsilon 
-)
+    neighbour_structs = NeighbourStructs().structs,
+    is_epsilon = is_epsilon,
+    epsilon = fc_epsilon
+    ) 
 
-
-for i in range(1):
-    x_C = fc_initial_solution(m_custo_tarefa)
+    
     x_E = fe_initial_solution(m_recursos_necessarios)
 
-    x_C.to_csv(f'xc_{i}.csv')
-    x_E.to_csv(f'xe_{i}.csv')
 
 
-    print(f"-----------FC {i}--------")
-    solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
+    
 
-    df_evolution = pd.DataFrame(gvns.evolution_of_f)
-    df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
-    gvns.evolution_of_f = list()
+    
 
-    print(f"-----------FE {i}--------")
+    
+    gvns.epsilon = fc_epsilon
+
+
     solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
+    check_frontier(solution_E,frontier)
+    list_of_lists.append(frontier)
 
 
-    df_evolution = pd.DataFrame(gvns.evolution_of_f)
-    df_evolution.to_csv(f'evolution_of_fe_{i}.csv')
-    gvns.evolution_of_f = list()
-
-
-    print(f"\n\n-----------Solutions {i}--------\n\n")
-    print("fc(x_C): ", f_C(x_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
-    print("fc(solution_C): ", f_C(solution_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
-
-    print("fe(x_E): ", f_E(x_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
-    print("fe(solution_E): ", f_E(solution_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
-
-    solution_C.to_csv(f'fc_{i}.csv')
-    solution_E.to_csv(f'fe_{i}.csv')

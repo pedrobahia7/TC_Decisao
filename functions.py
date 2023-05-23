@@ -63,3 +63,8 @@ def fe_initial_solution(df):
             cost_copy.loc[min_row,min_col] = 80000000
 
     return(x)
+
+
+
+
+
