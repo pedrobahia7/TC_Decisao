@@ -9,7 +9,7 @@ m = 50
 
 l_max = 2
 k_max = 3
-t_max = 10
+t_max = 30
 
 m_recursos_necessarios = pd.read_csv('data_5x50_a.csv', header=None)
 m_custo_tarefa = pd.read_csv('data_5x50_c.csv', header=None)
