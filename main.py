@@ -89,7 +89,7 @@ pickle.dump(eval_topsis, output)
 output.close()
 
 top = np.asarray(all_solutions)[ordem]
-output = open('bellzadeh.pkl', 'wb')
+output = open('top.pkl', 'wb')
 pickle.dump(top, output)
 output.close()
 
