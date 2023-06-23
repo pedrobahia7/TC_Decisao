@@ -4,6 +4,7 @@ from metaheuristics import GVNS
 from functions import *
 import pandas as pd
 import numpy as np 
+import pickle
 
 n = 5
 m = 50
@@ -46,26 +47,51 @@ for i in range(5):
             all_evaluated_solutions.append(evaluated_solution)
             all_solutions.append(aux)
 
+output = open('all_solutions.pkl', 'wb')
+pickle.dump(all_solutions, output)
+output.close()
+
+output = open('all_evaluated_solutions.pkl', 'wb')
+pickle.dump(all_evaluated_solutions, output)
+output.close()
+
 w = [
-    0.3, 
-    0.3, 
-    0.2, 
-    0.2
+    0.4, 
+    0.4, 
+    0.1, 
+    0.1
 ]
 
 max_or_min = False
+
 print("-----------------bellzadeh------------------")
 (matriz, notas, ordem) = TomadorDeDecisao().bellzadeh(all_evaluated_solutions, w, max_or_min)
-np.savetxt("bellzadeh.csv", np.asarray(all_solutions)[ordem], delimiter=",")
-np.savetxt("eval_bellzadeh.csv", np.asarray(matriz), delimiter=",")
+
+eval_bell = np.asarray(matriz)
+output = open('eval_bellzadeh.pkl', 'wb')
+pickle.dump(eval_bell, output)
+output.close()
+
+bell = np.asarray(all_solutions)[ordem]
+output = open('bellzadeh.pkl', 'wb')
+pickle.dump(bell, output)
+output.close()
 
 for idx in range(len(notas)):
     print(f"{tuple(matriz[idx])}:\n\tnota:{notas[idx]}\n")
 
 print("-----------------topsis------------------")
-
 (matriz, notas, ordem) = TomadorDeDecisao().topsis(all_evaluated_solutions, w, max_or_min)
-np.savetxt("topsis.csv", np.asarray(all_solutions)[ordem], delimiter=",")
-np.savetxt("eval_topsis.csv", np.asarray(matriz), delimiter=",")
+
+eval_topsis = np.asarray(matriz)
+output = open('eval_topsis.pkl', 'wb')
+pickle.dump(eval_topsis, output)
+output.close()
+
+top = np.asarray(all_solutions)[ordem]
+output = open('bellzadeh.pkl', 'wb')
+pickle.dump(top, output)
+output.close()
+
 for idx in range(5):
     print(f"{tuple(matriz[idx])}:\n\tnota:{notas[idx]}\n")
