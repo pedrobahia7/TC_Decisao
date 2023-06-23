@@ -1,4 +1,5 @@
 from neighbour_structs import NeighbourStructs
+from tomador_de_decisao import TomadorDeDecisao
 from metaheuristics import GVNS
 from functions import *
 import pandas as pd
@@ -23,6 +24,9 @@ gvns = GVNS(
 )
 
 
+all_solutions = []
+all_evaluated_solutions = []
+
 for i in range(5):
     x_C = fc_initial_solution(m_custo_tarefa)
     x_E = fe_initial_solution(m_recursos_necessarios)
@@ -30,41 +34,38 @@ for i in range(5):
     #x_E.to_csv(f'xe_{i}.csv')
 
     result = gvns.soma_ponderada_biobjetivo(x_E, x_E, x_E, l_max, k_max, t_max, f_C, f_E, neg_f_C, neg_f_E)
-    output=[]
     for idx,aux in enumerate(result):
-        output.append(
-            (
-                f_C(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
-                f_E(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
-            )
+
+        evaluated_solution = (
+            f_C(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
+            f_E(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
+            criterio_variacao_em_a(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
+            criterio_variacao_em_c(aux, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios),
         )
-        aux.to_csv(f'{idx}_x_out_{i}.csv')
+        if not (evaluated_solution[0] >= 2000 or evaluated_solution[1] >= 200):
+            all_evaluated_solutions.append(evaluated_solution)
+            all_solutions.append(aux)
 
-    with open(f'output_{i}.txt', 'w') as f:
-        f.write(str(output))
-    #print(f"-----------FC {i}--------")
-    #solution_C = gvns.gvns(x_E, l_max, k_max, t_max, f_C)
+w = [
+    0.3, 
+    0.3, 
+    0.2, 
+    0.2
+]
 
-    #df_evolution = pd.DataFrame(gvns.evolution_of_f)
-    #df_evolution.to_csv(f'evolution_of_fc_{i}.csv')
-    #gvns.evolution_of_f = list()
+max_or_min = False
+print("-----------------bellzadeh------------------")
+(matriz, notas, ordem) = TomadorDeDecisao().bellzadeh(all_evaluated_solutions, w, max_or_min)
+np.savetxt("bellzadeh.csv", np.asarray(all_solutions)[ordem], delimiter=",")
+np.savetxt("eval_bellzadeh.csv", np.asarray(matriz), delimiter=",")
 
+for idx in range(len(notas)):
+    print(f"{tuple(matriz[idx])}:\n\tnota:{notas[idx]}\n")
 
-    #print(f"-----------FE {i}--------")
-    #solution_E = gvns.gvns(x_E, l_max, k_max, t_max, f_E)
+print("-----------------topsis------------------")
 
-
-    #df_evolution = pd.DataFrame(gvns.evolution_of_f)
-    #df_evolution.to_csv(f'evolution_of_fe_{i}.csv')
-    #gvns.evolution_of_f = list()
-
-
-    #print(f"\n\n-----------Solutions {i}--------\n\n")
-    #print("fc(x_C): ", f_C(x_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
-    #print("fc(solution_C): ", f_C(solution_C, m_custo_tarefa, v_capacidade_maxima, m_recursos_necessarios))
-
-    #print("fe(x_E): ", f_E(x_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
-    #print("fe(solution_E): ", f_E(solution_E, m_recursos_necessarios, v_capacidade_maxima, m_recursos_necessarios))
-
-    #solution_C.to_csv(f'fc_{i}.csv')
-    #solution_E.to_csv(f'fe_{i}.csv')
+(matriz, notas, ordem) = TomadorDeDecisao().topsis(all_evaluated_solutions, w, max_or_min)
+np.savetxt("topsis.csv", np.asarray(all_solutions)[ordem], delimiter=",")
+np.savetxt("eval_topsis.csv", np.asarray(matriz), delimiter=",")
+for idx in range(5):
+    print(f"{tuple(matriz[idx])}:\n\tnota:{notas[idx]}\n")
